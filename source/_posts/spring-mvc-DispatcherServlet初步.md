@@ -7,7 +7,7 @@ categories: Java
 
 **在Spring MVC中，DispatcherServlet就是前端控制器**
 
-+ #####初始化
+## 初始化
 ```java
 	protected void initStrategies(ApplicationContext context) {
 		initMultipartResolver(context); //文件上传解析，如果请求类型是multipart将通过MultipartResolver进行文件上传解析；
@@ -21,8 +21,8 @@ categories: Java
 		initFlashMapManager(context); //flash映射管理器
 	}
 ```
-**单个Resolver**</br>
-initMultipartResolver、initLocaleResolver、initThemeResolver、initRequestToViewNameTranslator、initFlashMapManager这个5个方法都是通过context.getBean(String name, Class<T> requiredType)来获取相应的Resolver。以initMultipartResolver为例：见如下：
+**单个Resolver**
+initMultipartResolver,initLocaleResolver,initThemeResolver,initRequestToViewNameTranslator,initFlashMapManager这个5个方法都是通过context.getBean(String name, Class<T> requiredType)来获取相应的Resolver.以initMultipartResolver为例,见如下:
 ```java
 	private void initMultipartResolver(ApplicationContext context) {
 		try {
@@ -41,7 +41,7 @@ initMultipartResolver、initLocaleResolver、initThemeResolver、initRequestToVi
 		}
 	}
 ```
-**多个Resolver**</br>
+**多个Resolver**
 initHandlerMappings、initHandlerAdapters、initHandlerExceptionResolvers、initViewResolvers获取方式相同，都是通过BeanFactoryUtils.beansOfTypeIncludingAncestors(ListableBeanFactory lbf, Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)来获取相应的Resolver。以initHandlerMappings为例，见如下：
 ```java
 	private void initHandlerMappings(ApplicationContext context) {
@@ -77,7 +77,7 @@ initHandlerMappings、initHandlerAdapters、initHandlerExceptionResolvers、init
 		}
 	}
 ```
-具体来看下beansOfTypeIncludingAncestors做了哪些工作?返回指定类型和子类型的所有bean，若该bean factory 是一个继承类型的beanFactory，这个方法也会获取祖宗factory中定义的指定类型的bean。
+具体来看下beansOfTypeIncludingAncestors做了哪些工作?返回指定类型和子类型的所有bean,若该bean factory 是一个继承类型的beanFactory,这个方法也会获取祖宗factory中定义的指定类型的bean.
 ```java
 	public static <T> Map<String, T> beansOfTypeIncludingAncestors(
 			ListableBeanFactory lbf, Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)
@@ -103,7 +103,7 @@ initHandlerMappings、initHandlerAdapters、initHandlerExceptionResolvers、init
 	}
 
 ```
-+ #####提供服务
+## 提供服务
 现在看看最核心的doService方法
 ```java
 	@Override
@@ -247,11 +247,11 @@ initHandlerMappings、initHandlerAdapters、initHandlerExceptionResolvers、init
 	}
 ```
 分发过程如下:
-+ 判断是否设置multipart resolver，设置的话转换为multipart request
-+ 根据request获取handler
-+ 根据handler获取handlerAdapter
-+ 应用已注册interceptor的preHandle方法
-+ handlerAdapter处理请求
-+ 设置默认视图
-+ 应用已注册interceptor的postHandle方法
-+ 处理异常或者视图渲染
+1. 判断是否设置multipart resolver，设置的话转换为multipart request
+2. 根据request获取handler
+3. 根据handler获取handlerAdapter
+4. 应用已注册interceptor的preHandle方法
+5. handlerAdapter处理请求
+6. 设置默认视图
+7. 应用已注册interceptor的postHandle方法
+8. 处理异常或者视图渲染
