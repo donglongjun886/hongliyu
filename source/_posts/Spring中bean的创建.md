@@ -89,14 +89,16 @@ protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, 
 ```
 
 ### 创建常规bean
-##### 调用createBeanInstance()方法利用反射通过构造函数实例化bean
+#### 创建实例
+调用createBeanInstance()方法利用反射通过构造函数实例化bean
 ```java
 if (instanceWrapper == null) {
 	instanceWrapper = createBeanInstance(beanName, mbd, args);
 }
 ```
 
-##### 调用applyMergedBeanDefinitionPostProcessors()方法来执行MergedBeanDefinitionPostProcessor的postProcessMergedBeanDefinition()方法
+#### postProcessMergedBeanDefinition
+调用applyMergedBeanDefinitionPostProcessors()方法来执行MergedBeanDefinitionPostProcessor的postProcessMergedBeanDefinition()方法
 ```java
 // Allow post-processors to modify the merged bean definition.
 synchronized (mbd.postProcessingLock) {
@@ -125,7 +127,7 @@ protected void applyMergedBeanDefinitionPostProcessors(RootBeanDefinition mbd, C
 }
 ```
 
-##### 调用populateBean()方法
+#### 调用populateBean()方法
 ```java
 populateBean(beanName, mbd, instanceWrapper);
 ```
@@ -176,7 +178,7 @@ if (mbd.getResolvedAutowireMode() == RootBeanDefinition.AUTOWIRE_BY_NAME ||
 applyPropertyValues(beanName, mbd, bw, pvs);
 ```
 
-##### 调用initializeBean()方法
+#### 调用initializeBean()方法
 ```java
 // Initialize the bean instance.
 Object exposedObject = bean;
@@ -358,7 +360,7 @@ public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, St
 	return result;
 }
 ```
-##### 处理循环依赖
+#### 处理循环依赖
 ```java
 if (earlySingletonExposure) {
 	Object earlySingletonReference = getSingleton(beanName, false);
@@ -387,7 +389,7 @@ if (earlySingletonExposure) {
 	}
 }
 ```
-##### 注册disposableBean
+#### 注册disposableBean
 ```java
 protected void registerDisposableBeanIfNecessary(String beanName, Object bean, RootBeanDefinition mbd) {
 	AccessControlContext acc = (System.getSecurityManager() != null ? getAccessControlContext() : null);
